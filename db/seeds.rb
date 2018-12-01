@@ -41,6 +41,7 @@ messages = [
   'Omg its so windy today'
 ]
 messages.each { |message|
-  message = Message.create(content: message, user_id: rand(1..(users.count)), channel_id: rand(1..(channels.count)))
+  user_id = rand(1..(users.count))
+  message = Message.create(content: message, author: User.find(user_id).email, user_id: user_id, channel_id: rand(1..(channels.count)))
   puts message.id
 }

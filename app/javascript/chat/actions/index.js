@@ -16,15 +16,20 @@ export function fetchMessages(channel) {
   };
 }
 
-export function createMessage(channel, author, content) {
-  const url = `${BASE_URL}/${channel}/messages`;
-  const body = { author, content }; // ES6 destructuring
+export function createMessage(channel, content) {
+  const url = `${BASE_URL}/channels/${channel}/messages`;
+  const body = { content };
+  console.log("This is the body");
+  console.log(body);
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
   const promise = fetch(url, {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': csrfToken
     },
+    credentials: 'same-origin',
     body: JSON.stringify(body)
   }).then(r => r.json());
 
